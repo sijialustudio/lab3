@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://cmc3meqwpwtyn"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_jcnil"]
+[ext_resource type="Texture2D" uid="uid://cqp6xk8cfmmsi" path="res://pngimg.com - minions_PNG63.png" id="2_2iqnl"]
+[ext_resource type="Script" path="res://health_label.gd" id="3_ttqik"]
+[ext_resource type="Texture2D" uid="uid://5gddtj177xg2" path="res://pngegg (1).png" id="4_3hmqj"]
+[ext_resource type="Script" path="res://hazard.gd" id="4_7vqlt"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b5h13"]
+radius = 52.0
+height = 182.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lgckv"]
+radius = 56.0
+
+[node name="lab3" type="Node2D"]
+
+[node name="player" type="CharacterBody2D" parent="." groups=["player"]]
+collision_mask = 7
+script = ExtResource("1_jcnil")
+
+[node name="Sprite2D" type="Sprite2D" parent="player"]
+position = Vector2(184, 315.481)
+scale = Vector2(0.152216, 0.165802)
+texture = ExtResource("2_2iqnl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
+position = Vector2(181, 327)
+scale = Vector2(1, 1)
+shape = SubResource("CapsuleShape2D_b5h13")
+
+[node name="Hazard" type="Area2D" parent="."]
+position = Vector2(12, 48)
+collision_layer = 3
+script = ExtResource("4_7vqlt")
+
+[node name="Sprite2D" type="Sprite2D" parent="Hazard"]
+position = Vector2(516.5, 261.5)
+scale = Vector2(0.363333, 0.37)
+texture = ExtResource("4_3hmqj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hazard"]
+position = Vector2(516, 261)
+shape = SubResource("CircleShape2D_lgckv")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HealthLabel" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Health: 3"
+script = ExtResource("3_ttqik")
+metadata/_edit_use_anchors_ = true
+
+[connection signal="body_entered" from="Hazard" to="Hazard" method="_on_Hazard_body_entered"]

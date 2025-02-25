@@ -1,0 +1,76 @@
+[gd_scene load_steps=12 format=3 uid="uid://cmc3meqwpwtyn"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_jcnil"]
+[ext_resource type="Texture2D" uid="uid://cqp6xk8cfmmsi" path="res://pngimg.com - minions_PNG63.png" id="2_2iqnl"]
+[ext_resource type="Script" path="res://health_label.gd" id="3_ttqik"]
+[ext_resource type="Texture2D" uid="uid://5gddtj177xg2" path="res://pngegg (1).png" id="4_3hmqj"]
+[ext_resource type="Script" path="res://hazard.gd" id="4_7vqlt"]
+[ext_resource type="Script" path="res://checkpoint.gd" id="6_xxnmo"]
+[ext_resource type="Texture2D" uid="uid://difelqmllo3qp" path="res://icon.svg" id="7_83m85"]
+[ext_resource type="Texture2D" uid="uid://bwv3kbjy633xw" path="res://pngegg (2).png" id="7_gx106"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b5h13"]
+radius = 20.0
+height = 60.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lgckv"]
+radius = 20.025
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mhmd6"]
+size = Vector2(109.524, 108.909)
+
+[node name="lab3" type="Node2D"]
+
+[node name="player" type="CharacterBody2D" parent="."]
+collision_mask = 7
+script = ExtResource("1_jcnil")
+
+[node name="Sprite2D" type="Sprite2D" parent="player"]
+position = Vector2(62, 278.259)
+scale = Vector2(0.0539499, 0.0587654)
+texture = ExtResource("2_2iqnl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
+position = Vector2(61, 283)
+scale = Vector2(1, 1)
+shape = SubResource("CapsuleShape2D_b5h13")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HealthLabel" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Health: 3"
+script = ExtResource("3_ttqik")
+
+[node name="Hazard" type="Area2D" parent="."]
+position = Vector2(12, 48)
+collision_layer = 3
+script = ExtResource("4_7vqlt")
+
+[node name="Sprite2D" type="Sprite2D" parent="Hazard"]
+position = Vector2(260, 198)
+scale = Vector2(0.14, 0.14)
+texture = ExtResource("4_3hmqj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hazard"]
+position = Vector2(260, 198)
+shape = SubResource("CircleShape2D_lgckv")
+
+[node name="Checkpoint" type="Area2D" parent="."]
+collision_layer = 4
+script = ExtResource("6_xxnmo")
+activated_texture = ExtResource("7_gx106")
+
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoint"]
+position = Vector2(1115.5, 274)
+scale = Vector2(0.320313, 0.34375)
+texture = ExtResource("7_83m85")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoint"]
+position = Vector2(1114.96, 273.281)
+scale = Vector2(0.320312, 0.34375)
+shape = SubResource("RectangleShape2D_mhmd6")
+
+[connection signal="body_entered" from="Hazard" to="Hazard" method="_on_Hazard_body_entered"]
+[connection signal="body_entered" from="Checkpoint" to="Checkpoint" method="_on_body_entered"]
